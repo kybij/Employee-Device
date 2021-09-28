@@ -1,3 +1,4 @@
+const init = require("connect-session-sequelize")
 const inquirer = require("inquirer")
 const mysql = require("mysql2")
 require("console.table")
@@ -133,5 +134,18 @@ function addEmployee() {
 }
 
 function updateEmployee() {
-
+    inquirer.prompt([{
+        type: "number",
+        name: "updateEmployee",
+        message: "Enter employees ID number you wish to update",
+        validate: (answer) => {
+            if (answer) {
+                return true;
+            } else {
+                console.log("Enter employee ID");
+                return false;
+            }
+        }
+    }
+])
 }
