@@ -14,14 +14,14 @@ connection.connect(function (error) {
     if (error) {
         console.log(error)
     }
-    displayMenu()
+    
 })
 // , , , , , , and 
 function displayMenu() {
     inquirer.prompt([{
         type: "list",
         message: "Choose the Following",
-        choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role"],
+        choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee"],
         name: "selection"
 
     }])
@@ -134,18 +134,43 @@ function addEmployee() {
 }
 
 function updateEmployee() {
-    inquirer.prompt([{
-        type: "number",
-        name: "updateEmployee",
-        message: "Enter employees ID number you wish to update",
-        validate: (answer) => {
+    inquirer.prompt([
+        {
+          type: 'number',
+          name: 'updateEmployee',
+          message: 'Enter employees ID number you wish to update!',
+          validate: (answer) => {
             if (answer) {
-                return true;
+              return true;
             } else {
-                console.log("Enter employee ID");
-                return false;
+              console.log('Please enter employee ID!');
+              return false;
             }
+          }
+        },
+        {
+          type: 'number',
+          name: 'updateRole',
+          message: 'Please update the employees new role',
+          validate: (answer) => {
+            if (answer) {
+              return true;
+            } else {
+              console.log('Please input a new role id!');
+              return false;
+            }
+          }
         }
-    }
-])
-}
+      ])
+
+        .then((answer) => {
+          connection.query(
+            `UPDATE employee SET role_id = ${answer.updateRole} WHERE id = ${answer.updateEmployee}`, (err, res) => {
+              if (err) throw err;
+              console.log('Employee Updated');
+              displayMenu();
+            })
+        });
+    };
+
+displayMenu()
