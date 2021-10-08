@@ -1,3 +1,4 @@
+// install
 const init = require("connect-session-sequelize")
 const inquirer = require("inquirer")
 const mysql = require("mysql2")
@@ -16,7 +17,7 @@ connection.connect(function (error) {
     }
     
 })
-// , , , , , , and 
+ 
 function displayMenu() {
     inquirer.prompt([{
         type: "list",
